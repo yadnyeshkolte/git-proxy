@@ -3,6 +3,7 @@
 import React, {useState, useEffect} from 'react';
 import {makeStyles} from '@material-ui/core/styles';
 import Icon from '@material-ui/core/Icon';
+import LocalOffer from '@material-ui/icons/LocalOffer';
 import Card from '../../../components/Card/Card.jsx';
 import CardHeader from '../../../components/Card/CardHeader.jsx';
 import CardIcon from '../../../components/Card/CardIcon.jsx';
@@ -13,14 +14,15 @@ import {Redirect} from 'react-router-dom';
 
 const useStyles = makeStyles(styles);
 
-export default function CancelledPushRequestSummary(props) {
+export default function PullRequestSummary(props) {
   const classes = useStyles();
   const [data, setData] = useState([]);
   const [auth, setAuth] = useState(true);
   const [isLoading, setIsLoading] = useState(true);
   const [isError, setIsError] = useState(false);
+
   useEffect(() => {
-    const query={canceled: true};
+    const query={method: 'GET', type: 'default'};
     getPushes(setIsLoading, setData, setAuth, setIsError, query);
     }, [props]);
 
@@ -30,14 +32,18 @@ export default function CancelledPushRequestSummary(props) {
 
   return (
     <Card>
-      <CardHeader color="danger" stats icon>
-        <CardIcon color="danger">
+      <CardHeader color="success" stats icon>
+        <CardIcon color="success">
           <Icon>info_outline</Icon>
         </CardIcon>
-        <p className={classes.cardCategory}>Cancelled</p>
+        <p className={classes.cardCategory}>Pull Requests</p>
         <h3 className={classes.cardTitle}>{data.length}</h3>
       </CardHeader>
       <CardFooter stats>
+        <div className={classes.stats}>
+          <LocalOffer />
+          Pull requests from open-source repositories
+        </div>
       </CardFooter>
     </Card>
   );

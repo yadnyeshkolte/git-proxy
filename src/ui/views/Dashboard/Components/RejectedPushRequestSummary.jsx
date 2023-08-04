@@ -13,14 +13,14 @@ import {Redirect} from 'react-router-dom';
 
 const useStyles = makeStyles(styles);
 
-export default function CancelledPushRequestSummary(props) {
+export default function RejectedPushRequestSummary(props) {
   const classes = useStyles();
   const [data, setData] = useState([]);
   const [auth, setAuth] = useState(true);
   const [isLoading, setIsLoading] = useState(true);
   const [isError, setIsError] = useState(false);
   useEffect(() => {
-    const query={canceled: true};
+    const query={rejected: true};
     getPushes(setIsLoading, setData, setAuth, setIsError, query);
     }, [props]);
 
@@ -34,7 +34,7 @@ export default function CancelledPushRequestSummary(props) {
         <CardIcon color="danger">
           <Icon>info_outline</Icon>
         </CardIcon>
-        <p className={classes.cardCategory}>Cancelled</p>
+        <p className={classes.cardCategory}>Auto Rejected Pushes</p>
         <h3 className={classes.cardTitle}>{data.length}</h3>
       </CardHeader>
       <CardFooter stats>
