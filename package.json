@@ -6,26 +6,33 @@
     "cli": "node ./packages/git-proxy-cli/index.js",
     "client": "vite --config vite.config.js",
     "clientinstall": "npm install --prefix client",
-    "server": "node index.js",
+    "server": "node dist/index.js",
     "start": "concurrently 'npm run server' 'npm run client'",
-    "build": "vite build",
-    "test": "NODE_ENV=test mocha --exit",
+    "build": "tsc && node ./scripts/copy-files.js",
+    "dev": "ts-node src/index.ts",
+    "test": "NODE_ENV=test cross-env TS_NODE_COMPILER_OPTIONS='{\"module\": \"commonjs\" }' mocha -r ts-node/register 'tests/**/*.ts'",
     "test-coverage": "nyc npm run test",
     "test-coverage-ci": "nyc --reporter=lcovonly --reporter=text npm run test",
     "prepare": "node ./scripts/prepare.js",
-    "lint": "eslint \"src/**/*.{js,jsx,ts,tsx,json}\" \"test/**/*.{js,jsx,ts,tsx,json}\"",
-    "lint:fix": "eslint --fix \"src/**/*.{js,jsx,ts,tsx,json}\" \"test/**/*.{js,jsx,ts,tsx,json}\"",
+    "lint": "eslint index.ts \"src/**/*.{js,jsx,ts,tsx,json}\" \"test/**/*.{js,jsx,ts,tsx,json}\"",
+    "lint:fix": "eslint --fix \"index.ts src/**/*.{js,jsx,ts,tsx,json}\" \"test/**/*.{js,jsx,ts,tsx,json}\"",
     "format": "prettier --write src/**/*.{js,jsx,ts,tsx,css,md,json,scss} test/**/*.{js,jsx,ts,tsx,json} --config ./.prettierrc",
     "gen-schema-doc": "node ./scripts/doc-schema.js",
     "cypress:run": "cypress run"
   },
+    "cypress:run": "cypress run"
+  },
   "bin": {
+    "git-proxy": "./index.js",
     "git-proxy": "./index.js",
     "git-proxy-all": "concurrently 'npm run server' 'npm run client'"
   },
   "workspaces": [
     "./packages/git-proxy-cli"
+    "./packages/git-proxy-cli"
   ],
+  "author": "Paul Groves",
+  "license": "Apache-2.0",
   "author": "Paul Groves",
   "license": "Apache-2.0",
   "dependencies": {
@@ -69,24 +76,24 @@
     "yargs": "^17.7.2"
   },
   "devDependencies": {
-    "@babel/core": "^7.23.2",
-    "@babel/eslint-parser": "^7.22.9",
-    "@babel/preset-react": "^7.22.5",
-    "@commitlint/cli": "^19.0.0",
-    "@commitlint/config-conventional": "^19.0.0",
-    "@vitejs/plugin-react": "^4.0.2",
+    "@commitlint/cli": "^19.3.0",
+    "@commitlint/config-conventional": "^19.2.2",
+    "@eslint/js": "^9.8.0",
+    "@types/express": "^4.17.21",
+    "@types/node": "^20.14.12",
+    "@types/yargs": "^17.0.32",
     "chai": "^4.2.0",
-    "eslint": "^8.57.0",
-    "eslint-config-google": "^0.14.0",
-    "eslint-config-prettier": "^9.0.0",
-    "eslint-plugin-json": "^3.1.0",
-    "eslint-plugin-prettier": "^5.0.0",
-    "eslint-plugin-react": "^7.21.5",
-    "eslint-plugin-standard": "^5.0.0",
+    "cross-env": "^7.0.3",
+    "eslint": "^9.8.0",
+    "eslint-plugin-react": "^7.35.0",
+    "globals": "^15.8.0",
     "husky": "^9.0.0",
     "mocha": "^10.2.0",
     "nyc": "^17.0.0",
     "prettier": "^3.0.0",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.5.4",
+    "typescript-eslint": "^7.17.0",
     "vite": "^4.4.2"
   },
   "browserslist": {
@@ -100,5 +107,6 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  }
+  },
+  "packageManager": "yarn@4.3.1"
 }

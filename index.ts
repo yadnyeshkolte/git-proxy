@@ -1,6 +1,7 @@
 #!/usr/bin/env node
-/* eslint-disable max-len */
-const argv = require('yargs/yargs')(process.argv.slice(2))
+import yargs from 'yargs/yargs';
+
+const argv = yargs(process.argv.slice(2))
   .usage('Usage: $0 [options]')
   .options({
     validate: {
@@ -16,7 +17,8 @@ const argv = require('yargs/yargs')(process.argv.slice(2))
       alias: 'c',
     },
   })
-  .strict().argv;
+  .strict().parseSync();
+
 
 const config = require('./src/config/file');
 config.configFile = argv.c ? argv.c : undefined;
